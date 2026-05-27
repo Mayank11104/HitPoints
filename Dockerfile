@@ -28,7 +28,7 @@ RUN chmod -R 755 /usr/share/nginx/html
 EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget -qO- http://localhost:8080/ || exit 1
+  CMD wget -qO- http://127.0.0.1:8080/ || exit 1
 
 LABEL org.opencontainers.image.title="HitPoints" \
       org.opencontainers.image.description="Lightweight browser-based API & WebSocket testing tool" \
