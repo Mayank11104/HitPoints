@@ -474,16 +474,5 @@ Open the application EC2 public IP in a browser to confirm the service loads.
 - **Repository mirroring** is not a reliable immediate trigger mechanism when deployment speed matters
 - **Health checks** should be verified manually inside the container before assuming the application is broken
 
----
 
-## License
 
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-<div align="center">
-
-**Built with ❤️ by [Mayank](https://github.com/Mayank11104)**
-
-</div>
