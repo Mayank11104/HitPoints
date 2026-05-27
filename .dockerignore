@@ -1,0 +1,39 @@
+# ── Dependencies ──
+node_modules
+npm-debug.log*
+
+# ── Build output ──
+dist
+
+# ── Version control ──
+.git
+.gitignore
+
+# ── IDE / Editor ──
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# ── OS files ──
+.DS_Store
+Thumbs.db
+
+# ── Docker ──
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# ── CI/CD ──
+.github
+.gitlab-ci.yml
+
+# ── Docs / Meta ──
+README.md
+LICENSE
+*.md
+
+# ── Environment ──
+.env
+.env.*

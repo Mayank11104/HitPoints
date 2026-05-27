@@ -1,0 +1,44 @@
+stages:
+  - build
+  - push
+  - deploy
+
+variables:
+  IMAGE_NAME: "$DOCKER_USERNAME/hitpoints"
+  IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
+  FULL_IMAGE_NAME: "$DOCKER_USERNAME/hitpoints:$CI_COMMIT_SHORT_SHA"
+  CONTAINER_NAME: "hitpoints"
+  EC2_HOST: "3.111.213.53"
+  EC2_USER: "ubuntu"
+
+build_image:
+  stage: build
+  tags:
+    - dev
+  script:
+    - docker build --pull -t "$FULL_IMAGE_NAME" -t "$IMAGE_NAME:latest" .
+
+push_image:
+  stage: push
+  tags:
+    - dev
+  script:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push "$FULL_IMAGE_NAME"
+    - docker push "$IMAGE_NAME:latest"
+
+deploy_ec2:
+  stage: deploy
+  tags:
+    - dev
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  script:
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 "$EC2_USER@$EC2_HOST" "
+        echo '$DOCKER_PASSWORD' | docker login -u '$DOCKER_USERNAME' --password-stdin &&
+        docker pull '$FULL_IMAGE_NAME' &&
+        docker stop '$CONTAINER_NAME' || true &&
+        docker rm '$CONTAINER_NAME' || true &&
+        docker run -d --name '$CONTAINER_NAME' -p 80:8080 --restart unless-stopped '$FULL_IMAGE_NAME'
+      "
