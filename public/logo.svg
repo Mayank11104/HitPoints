@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0531F"/>
+      <stop offset="100%" stop-color="#FF6C37"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0531F" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FF6C37" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#0F0F0F"/>
+  <circle cx="256" cy="256" r="240" stroke="url(#grad)" stroke-width="6" fill="none" opacity="0.4"/>
+  <!-- Outer target ring -->
+  <circle cx="256" cy="256" r="160" stroke="url(#ring)" stroke-width="3" fill="none"/>
+  <!-- Inner target ring -->
+  <circle cx="256" cy="256" r="100" stroke="url(#ring)" stroke-width="2.5" fill="none"/>
+  <!-- Crosshair lines -->
+  <line x1="256" y1="80" x2="256" y2="180" stroke="url(#grad)" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="256" y1="332" x2="256" y2="432" stroke="url(#grad)" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="80" y1="256" x2="180" y2="256" stroke="url(#grad)" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+  <line x1="332" y1="256" x2="432" y2="256" stroke="url(#grad)" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+  <!-- Center hit dot -->
+  <circle cx="256" cy="256" r="28" fill="url(#grad)"/>
+  <!-- Center glow -->
+  <circle cx="256" cy="256" r="42" fill="url(#grad)" opacity="0.15"/>
+  <!-- Pulse ring -->
+  <circle cx="256" cy="256" r="60" stroke="#E0531F" stroke-width="2" fill="none" opacity="0.2"/>
+  <!-- Arrow / bolt shape pointing at center (top-right) -->
+  <path d="M340 130 L290 210 L320 210 L270 280" stroke="url(#grad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8"/>
+</svg>
