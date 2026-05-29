@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Send, Plus, Minus, FileJson, Copy, Globe, Check,
 } from 'lucide-react';
@@ -17,18 +17,19 @@ export default function RestClient({ settings, onHistoryAdd, fillData }) {
   const [flash, setFlash] = useState(null);
   const [showCorsToast, setShowCorsToast] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [lastFillTs, setLastFillTs] = useState(null);
 
-  // Fill form from history selection
-  useEffect(() => {
-    if (fillData && fillData.type === 'REST') {
-      setMethod(fillData.method || 'GET');
-      setUrl(fillData.url || '');
-      setHeaders(fillData.headers?.length ? fillData.headers : [{ key: '', value: '' }]);
-      setBody(fillData.body || '');
-      setResponse(null);
-      setRestTab('headers');
-    }
-  }, [fillData]);
+  // React-recommended pattern: adjust state during render when props change
+  // @see https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
+  if (fillData && fillData.type === 'REST' && fillData._ts !== lastFillTs) {
+    setLastFillTs(fillData._ts);
+    setMethod(fillData.method || 'GET');
+    setUrl(fillData.url || '');
+    setHeaders(fillData.headers?.length ? fillData.headers : [{ key: '', value: '' }]);
+    setBody(fillData.body || '');
+    setResponse(null);
+    setRestTab('headers');
+  }
 
   const addHeader = () => setHeaders((p) => [...p, { key: '', value: '' }]);
   const removeHeader = (i) => setHeaders((p) => p.filter((_, idx) => idx !== i));

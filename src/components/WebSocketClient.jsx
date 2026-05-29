@@ -3,7 +3,7 @@ import {
   Wifi, WifiOff, Send, Search, Trash2, Cable,
   FileJson, Check, X, ChevronsDown, ChevronsUp,
 } from 'lucide-react';
-import { formatTime, prettyJSON } from '../utils/helpers';
+import { formatTime } from '../utils/helpers';
 
 /* ── Connection state visual config ── */
 const STATE_CONFIG = {
@@ -23,13 +23,13 @@ export default function WebSocketClient({ onHistoryAdd, fillData }) {
   const [searchFilter, setSearchFilter] = useState('');
   const wsRef = useRef(null);
   const logEndRef = useRef(null);
+  const [lastFillTs, setLastFillTs] = useState(null);
 
-  // Fill form from history selection
-  useEffect(() => {
-    if (fillData && fillData.type === 'WS') {
-      setWsUrl(fillData.url || '');
-    }
-  }, [fillData]);
+  // React-recommended pattern: adjust state during render when props change
+  if (fillData && fillData.type === 'WS' && fillData._ts !== lastFillTs) {
+    setLastFillTs(fillData._ts);
+    setWsUrl(fillData.url || '');
+  }
 
   // Auto-scroll message log
   useEffect(() => {

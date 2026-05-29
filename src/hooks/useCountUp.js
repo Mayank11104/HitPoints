@@ -3,14 +3,26 @@ import { useState, useEffect, useRef } from 'react';
 /**
  * Hook that animates a number counting from 0 to `target` using requestAnimationFrame.
  * Uses cubic ease-out for a satisfying deceleration effect.
+ *
+ * State reset uses the React-recommended "adjusting state during rendering" pattern
+ * to avoid synchronous setState inside effects.
+ * @see https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes
  */
 export function useCountUp(target, duration = 600) {
   const [value, setValue] = useState(0);
+  const [prevTarget, setPrevTarget] = useState(undefined);
   const rafRef = useRef(null);
+
+  // React-recommended pattern: adjust state during render when props change
+  if (target !== prevTarget) {
+    setPrevTarget(target);
+    if (target === null || target === undefined) {
+      setValue(0);
+    }
+  }
 
   useEffect(() => {
     if (target === null || target === undefined) {
-      setValue(0);
       return;
     }
 
